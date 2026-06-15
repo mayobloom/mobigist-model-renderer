@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Economic Order Quantity</title>
+  <link rel="stylesheet" href="../../assets/shared.css">
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+  <main class="model-shell">
+    <header class="model-header">
+      <p class="eyebrow">Operations</p>
+      <h1>Economic Order Quantity</h1>
+      <p class="lede">Explore the cost balance between order frequency and inventory holding.</p>
+    </header>
+
+    <section class="workspace">
+      <aside class="controls" aria-label="EOQ controls">
+        <p class="formula">Q* = sqrt(2DS / H)</p>
+        <div class="control-group">
+          <div class="control-row"><label for="demand">Annual demand D</label><output data-output="demand"></output></div>
+          <input id="demand" type="range" min="1000" max="100000" step="1000" value="24000">
+          <div class="control-row"><label for="order-cost">Order cost S</label><output data-output="order-cost"></output></div>
+          <input id="order-cost" type="range" min="10" max="1000" step="10" value="180">
+          <div class="control-row"><label for="holding-cost">Holding cost H</label><output data-output="holding-cost"></output></div>
+          <input id="holding-cost" type="range" min="1" max="80" step="1" value="12">
+        </div>
+        <div class="control-group">
+          <div class="control-row"><label for="unit-cost">Unit cost C</label><output data-output="unit-cost"></output></div>
+          <input id="unit-cost" type="range" min="1" max="200" step="1" value="35">
+          <div class="control-row"><label for="lead-time">Lead time L</label><output data-output="lead-time"></output></div>
+          <input id="lead-time" type="range" min="1" max="60" step="1" value="10">
+        </div>
+      </aside>
+
+      <section class="chart-panel">
+        <div id="chart" class="chart" role="img" aria-label="EOQ cost curve"></div>
+        <div class="metric-grid" id="metrics"></div>
+        <p class="note">Total annual cost includes purchase, ordering, and holding cost. The optimal order size minimizes the ordering-holding tradeoff.</p>
+      </section>
+    </section>
+  </main>
+  <script type="module" src="./model.js"></script>
+</body>
+</html>

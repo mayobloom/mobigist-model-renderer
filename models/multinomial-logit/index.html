@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multinomial Logistic Regression</title>
+  <link rel="stylesheet" href="../../assets/shared.css">
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+  <main class="model-shell">
+    <header class="model-header">
+      <p class="eyebrow">Discrete Choice</p>
+      <h1>Multinomial Logistic Regression</h1>
+      <p class="lede">Adjust time and cost sensitivity to see how mode choice probabilities change.</p>
+    </header>
+
+    <section class="workspace">
+      <aside class="controls" aria-label="Model controls">
+        <div class="control-group">
+          <div class="control-row">
+            <label for="beta-time">Time coefficient</label>
+            <output data-output="beta-time"></output>
+          </div>
+          <input id="beta-time" type="range" min="-0.12" max="-0.005" step="0.005" value="-0.055">
+        </div>
+        <div class="control-group">
+          <div class="control-row">
+            <label for="beta-cost">Cost coefficient</label>
+            <output data-output="beta-cost"></output>
+          </div>
+          <input id="beta-cost" type="range" min="-0.5" max="-0.01" step="0.01" value="-0.18">
+        </div>
+        <div class="control-group">
+          <div class="control-row">
+            <label for="car-time">Car time</label>
+            <output data-output="car-time"></output>
+          </div>
+          <input id="car-time" type="range" min="10" max="90" step="1" value="34">
+          <div class="control-row">
+            <label for="transit-time">Transit time</label>
+            <output data-output="transit-time"></output>
+          </div>
+          <input id="transit-time" type="range" min="10" max="100" step="1" value="48">
+          <div class="control-row">
+            <label for="bike-time">Bike time</label>
+            <output data-output="bike-time"></output>
+          </div>
+          <input id="bike-time" type="range" min="5" max="80" step="1" value="42">
+        </div>
+      </aside>
+
+      <section class="chart-panel">
+        <div id="chart" class="chart" role="img" aria-label="Mode choice probability chart"></div>
+        <div class="metric-grid" id="metrics"></div>
+        <table class="alternative-table" aria-label="Alternative utilities">
+          <thead>
+            <tr><th>Mode</th><th>Time</th><th>Cost</th><th>Utility</th><th>Probability</th></tr>
+          </thead>
+          <tbody id="utility-table"></tbody>
+        </table>
+      </section>
+    </section>
+  </main>
+  <script type="module" src="./model.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "alternatives": [
+    { "name": "Car", "time": 34, "cost": 8.5, "asc": 0.4 },
+    { "name": "Transit", "time": 48, "cost": 3.2, "asc": 0.0 },
+    { "name": "Bike", "time": 42, "cost": 0.4, "asc": -0.2 }
+  ],
+  "betaTime": -0.055,
+  "betaCost": -0.18
+}
