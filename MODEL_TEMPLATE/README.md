@@ -21,3 +21,7 @@ y = f(x; parameters)
 ## Notes
 
 State assumptions, units, and limitations.
+
+## Publishing Checklist
+
+- Add this model to `models/manifest.json`.

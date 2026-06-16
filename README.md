@@ -12,10 +12,17 @@ assets/
   shared.css
   shared.js
 models/
-  multinomial-logit/
-  eoq/
-  traffic-flow/
+  manifest.json
+  <model-slug>/
+    index.html
+    model.js
+    style.css
+    README.md
 ```
+
+The root page reads `models/manifest.json` and renders the model cards from
+that metadata. Add a model to the manifest when it should appear on the main
+page.
 
 ## Embedding
 

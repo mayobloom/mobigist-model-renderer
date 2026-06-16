@@ -1,11 +1,20 @@
-# 단순 선형 회귀 (Linear Regression)
+# Simple Linear Regression
 
-주행 거리와 소요 시간 사이의 선형적 관계를 시각화한 기초 모델입니다.
+Introductory model for visualizing a linear relationship between trip distance
+and travel time.
 
-## 모델 공식 (Formula)
-예측 시간은 거리 단위당 가중치($W$)와 기본 소요 시간(편향, $b$)의 합으로 산출됩니다.
+## Formula
+
+Predicted travel time is calculated from a distance slope, `W`, and a fixed
+intercept, `b`.
+
 $$y = Wx + b$$
 
-## 가정 (Assumptions)
-- 차량의 평균 속도는 일정 수준을 유지하며 극단적인 교통 체증은 배제되었습니다. (주의: 거리가 주어졌을 때 속도와 시간은 비례하지만 선형 관계가 아니며, 이 모델에서는 속도가 아닌 '거리'에 따른 시간의 선형적 증가만을 다룹니다.)
-- $b$는 승하차, 교차로 대기 등 주행 거리와 무관하게 발생하는 고정 기본 시간으로 간주합니다.
+## Assumptions
+
+- The model treats travel time as increasing linearly with trip distance.
+- Severe congestion and unusual incidents are excluded.
+- `b` represents fixed time that does not scale with distance, such as pickup,
+  drop-off, or intersection delay.
+- `W` represents additional minutes per kilometer under the simplified linear
+  relationship.

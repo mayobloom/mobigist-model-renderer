@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "multinomial-logit",
+    "category": "Discrete Choice",
+    "title": "Multinomial Logistic Regression",
+    "description": "Mode choice probabilities from utility parameters."
+  },
+  {
+    "slug": "eoq",
+    "category": "Operations",
+    "title": "Economic Order Quantity",
+    "description": "Inventory cost tradeoff and optimal order size."
+  },
+  {
+    "slug": "traffic-flow",
+    "category": "Traffic Flow",
+    "title": "Greenshields, Greenberg, Underwood",
+    "description": "Fundamental diagrams for speed, density, and flow."
+  },
+  {
+    "slug": "linear-regression",
+    "category": "Mobility Data Analysis",
+    "title": "Simple Linear Regression",
+    "description": "Explore how slope and intercept shape travel time predictions."
+  }
+]

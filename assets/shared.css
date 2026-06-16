@@ -135,6 +135,17 @@ h1 {
   padding-bottom: 0;
 }
 
+.formula {
+  margin: 0 0 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
 .control-row {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -165,6 +176,21 @@ select {
   border-radius: 4px;
   background: #fff;
   color: var(--ink);
+}
+
+.checkbox-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 34px;
+  color: var(--ink);
+}
+
+.checkbox-row input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
 }
 
 .metric-grid {

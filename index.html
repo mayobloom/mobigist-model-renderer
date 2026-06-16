@@ -14,23 +14,46 @@
       <p class="lede">Interactive transportation, operations, and econometric model sketches for posts.</p>
     </header>
 
-    <section class="model-list" aria-label="Available models">
-      <a class="model-card" href="./models/multinomial-logit/">
-        <span>Discrete Choice</span>
-        <strong>Multinomial Logistic Regression</strong>
-        <small>Mode choice probabilities from utility parameters.</small>
-      </a>
-      <a class="model-card" href="./models/eoq/">
-        <span>Operations</span>
-        <strong>Economic Order Quantity</strong>
-        <small>Inventory cost tradeoff and optimal order size.</small>
-      </a>
-      <a class="model-card" href="./models/traffic-flow/">
-        <span>Traffic Flow</span>
-        <strong>Greenshields, Greenberg, Underwood</strong>
-        <small>Fundamental diagrams for speed, density, and flow.</small>
-      </a>
+    <section id="model-list" class="model-list" aria-label="Available models">
+      <p class="note">Loading models...</p>
     </section>
   </main>
+
+  <script type="module">
+    const modelList = document.getElementById('model-list');
+
+    function createModelCard(model) {
+      const card = document.createElement('a');
+      card.className = 'model-card';
+      card.href = `./models/${model.slug}/`;
+
+      const category = document.createElement('span');
+      category.textContent = model.category;
+
+      const title = document.createElement('strong');
+      title.textContent = model.title;
+
+      const description = document.createElement('small');
+      description.textContent = model.description;
+
+      card.append(category, title, description);
+      return card;
+    }
+
+    try {
+      const response = await fetch('./models/manifest.json');
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const models = await response.json();
+      modelList.replaceChildren(...models.map(createModelCard));
+    } catch (error) {
+      modelList.replaceChildren();
+      const message = document.createElement('p');
+      message.className = 'note';
+      message.textContent = 'Unable to load the model list. Run this page through a local server or check models/manifest.json.';
+      modelList.append(message);
+      console.error('Failed to load model manifest:', error);
+    }
+  </script>
 </body>
 </html>

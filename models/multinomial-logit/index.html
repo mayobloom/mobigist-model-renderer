@@ -18,6 +18,7 @@
 
     <section class="workspace">
       <aside class="controls" aria-label="Model controls">
+        <p class="formula">P(i) = exp(Vi) / sum exp(Vj)</p>
         <div class="control-group">
           <div class="control-row">
             <label for="beta-time">Time coefficient</label>
@@ -48,6 +49,12 @@
             <output data-output="bike-time"></output>
           </div>
           <input id="bike-time" type="range" min="5" max="80" step="1" value="42">
+        </div>
+        <div class="control-group">
+          <label class="checkbox-row" for="lock-axes">
+            <input id="lock-axes" type="checkbox" checked>
+            Lock x/y axes
+          </label>
         </div>
       </aside>
 

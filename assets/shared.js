@@ -2,6 +2,10 @@ export function readNumber(id) {
   return Number(document.getElementById(id).value);
 }
 
+export function readChecked(id) {
+  return document.getElementById(id)?.checked ?? false;
+}
+
 export function syncOutput(id, formatter = (value) => value) {
   const input = document.getElementById(id);
   const output = document.querySelector(`[data-output="${id}"]`);
@@ -12,10 +16,12 @@ export function bindInputs(ids, render, formatters = {}) {
   ids.forEach((id) => {
     const input = document.getElementById(id);
     if (!input) return;
-    input.addEventListener('input', () => {
+    const update = () => {
       syncOutput(id, formatters[id]);
       render();
-    });
+    };
+    input.addEventListener('input', update);
+    input.addEventListener('change', update);
     syncOutput(id, formatters[id]);
   });
 }
@@ -57,3 +63,54 @@ export const plotLayoutBase = {
     zerolinecolor: '#d8d1c8',
   },
 };
+
+export function axisOptions({
+  locked,
+  xRange,
+  yRange,
+  xTitle,
+  yTitle,
+  xaxis = {},
+  yaxis = {},
+}) {
+  const xLock = locked ? { range: xRange, autorange: false } : { autorange: true };
+  const yLock = locked ? { range: yRange, autorange: false } : { autorange: true };
+
+  return {
+    xaxis: {
+      ...plotLayoutBase.xaxis,
+      ...xaxis,
+      title: xTitle,
+      ...xLock,
+    },
+    yaxis: {
+      ...plotLayoutBase.yaxis,
+      ...yaxis,
+      title: yTitle,
+      ...yLock,
+    },
+  };
+}
+
+function axisRelayout(layout) {
+  return Object.entries(layout).reduce((updates, [axisName, axis]) => {
+    if (!/^[xy]axis\d*$/.test(axisName) || !axis) return updates;
+
+    if (axis.autorange === true) {
+      updates[`${axisName}.autorange`] = true;
+    } else if (Array.isArray(axis.range)) {
+      updates[`${axisName}.autorange`] = false;
+      updates[`${axisName}.range`] = axis.range;
+    }
+
+    return updates;
+  }, {});
+}
+
+export function renderPlot(target, traces, layout, config = plotConfig) {
+  return Plotly.react(target, traces, layout, config).then((plot) => {
+    const updates = axisRelayout(layout);
+    if (Object.keys(updates).length === 0) return plot;
+    return Plotly.relayout(plot, updates);
+  });
+}

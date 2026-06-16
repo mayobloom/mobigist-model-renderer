@@ -1,56 +1,67 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const weightInput = document.getElementById('weight');
-    const biasInput = document.getElementById('bias');
-    const weightVal = document.getElementById('weight-val');
-    const biasVal = document.getElementById('bias-val');
-    const plotDiv = document.getElementById('plot');
+import {
+  axisOptions,
+  bindInputs,
+  number,
+  plotConfig,
+  plotLayoutBase,
+  readChecked,
+  readNumber,
+  renderPlot
+} from '../../assets/shared.js';
 
-    // 거리(x, km)와 소요 시간(y, 분)
-    const distances = [1.2, 2.0, 2.5, 3.1, 4.0, 4.5, 5.2, 6.0, 7.5, 8.0];
-    const actualTimes = [8, 9, 11, 10, 14, 12, 16, 15, 19, 17];
+const inputIds = ['weight', 'bias', 'lock-axes'];
 
-    function updatePlot() {
-        const w = parseFloat(weightInput.value);
-        const b = parseFloat(biasInput.value);
-        
-        weightVal.textContent = w.toFixed(1);
-        biasVal.textContent = b.toFixed(1);
+document.addEventListener('DOMContentLoaded', () => {
+  const plotDiv = document.getElementById('plot');
 
-        const predictedTimes = distances.map(x => w * x + b);
+  // Distance (x, km) and travel time (y, min).
+  const distances = [1.2, 2.0, 2.5, 3.1, 4.0, 4.5, 5.2, 6.0, 7.5, 8.0];
+  const actualTimes = [8, 9, 11, 10, 14, 12, 16, 15, 19, 17];
 
-        const scatterTrace = {
-            x: distances,
-            y: actualTimes,
-            mode: 'markers',
-            type: 'scatter',
-            name: '실제 운행 데이터',
-            marker: { size: 8, color: '#2c3e50' }
-        };
+  function updatePlot() {
+    const w = readNumber('weight');
+    const b = readNumber('bias');
 
-        const lineTrace = {
-            x: distances,
-            y: predictedTimes,
-            mode: 'lines',
-            type: 'scatter',
-            name: '예측 회귀선',
-            line: { color: '#e74c3c', width: 2 }
-        };
+    const lineX = [0, 9];
+    const predictedTimes = lineX.map((x) => w * x + b);
 
-        const layout = {
-            autosize: true, 
-            margin: { t: 20, b: 40, l: 40, r: 20 },
-            xaxis: { title: '운행 거리 (km)' },
-            yaxis: { title: '소요 시간 (분)' },
-            legend: { orientation: 'h', y: -0.2 }
-        };
+    const scatterTrace = {
+      x: distances,
+      y: actualTimes,
+      mode: 'markers',
+      type: 'scatter',
+      name: 'Observed trips',
+      marker: { size: 8, color: '#2c3e50' },
+    };
 
-        const config = { responsive: true, displayModeBar: false };
+    const lineTrace = {
+      x: lineX,
+      y: predictedTimes,
+      mode: 'lines',
+      type: 'scatter',
+      name: 'Prediction line',
+      line: { color: '#e74c3c', width: 2 },
+    };
 
-        Plotly.react(plotDiv, [scatterTrace, lineTrace], layout, config);
-    }
+    const layout = {
+      ...plotLayoutBase,
+      margin: { t: 20, b: 40, l: 40, r: 20 },
+      ...axisOptions({
+        locked: readChecked('lock-axes'),
+        xRange: [0, 9],
+        yRange: [-5, 50],
+        xTitle: 'Trip distance (km)',
+        yTitle: 'Travel time (min)',
+      }),
+      legend: { orientation: 'h', y: -0.2 },
+    };
 
-    weightInput.addEventListener('input', updatePlot);
-    biasInput.addEventListener('input', updatePlot);
+    renderPlot(plotDiv, [scatterTrace, lineTrace], layout, plotConfig);
+  }
 
-    updatePlot();
+  bindInputs(inputIds, updatePlot, {
+    weight: (value) => number(value, 1),
+    bias: (value) => number(value, 1),
+  });
+  updatePlot();
 });

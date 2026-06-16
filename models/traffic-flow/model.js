@@ -1,6 +1,6 @@
-import { bindInputs, integer, number, plotConfig, plotLayoutBase, readNumber } from '../../assets/shared.js';
+import { axisOptions, bindInputs, integer, number, plotConfig, plotLayoutBase, readChecked, readNumber, renderPlot } from '../../assets/shared.js';
 
-const inputIds = ['free-speed', 'jam-density', 'critical-density', 'greenberg-c'];
+const inputIds = ['free-speed', 'jam-density', 'critical-density', 'greenberg-c', 'lock-axes'];
 const modelSelect = document.getElementById('model');
 const equations = {
   greenshields: 'v = vf * (1 - k / kj)',
@@ -37,6 +37,7 @@ function render() {
     k0: readNumber('critical-density'),
     c: readNumber('greenberg-c'),
   };
+  const locked = readChecked('lock-axes');
   const k = densityGrid(params.kj);
   const v = k.map((density) => speed(model, density, params));
   const q = k.map((density, index) => density * v[index]);
@@ -44,7 +45,7 @@ function render() {
 
   document.getElementById('equation').textContent = equations[model];
 
-  Plotly.react('speed-chart', [{
+  renderPlot('speed-chart', [{
     type: 'scatter',
     mode: 'lines',
     x: k,
@@ -54,12 +55,17 @@ function render() {
   }], {
     ...plotLayoutBase,
     margin: { ...plotLayoutBase.margin, t: 22 },
-    xaxis: { ...plotLayoutBase.xaxis, title: 'Density k (veh/km)' },
-    yaxis: { ...plotLayoutBase.yaxis, title: 'Speed v (km/h)' },
+    ...axisOptions({
+      locked,
+      xRange: [0, 240],
+      yRange: [0, 130],
+      xTitle: 'Density k (veh/km)',
+      yTitle: 'Speed v (km/h)',
+    }),
     showlegend: false,
   }, plotConfig);
 
-  Plotly.react('flow-chart', [
+  renderPlot('flow-chart', [
     {
       type: 'scatter',
       mode: 'lines',
@@ -79,8 +85,13 @@ function render() {
   ], {
     ...plotLayoutBase,
     margin: { ...plotLayoutBase.margin, t: 22 },
-    xaxis: { ...plotLayoutBase.xaxis, title: 'Density k (veh/km)' },
-    yaxis: { ...plotLayoutBase.yaxis, title: 'Flow q (veh/h)' },
+    ...axisOptions({
+      locked,
+      xRange: [0, 240],
+      yRange: [0, 9000],
+      xTitle: 'Density k (veh/km)',
+      yTitle: 'Flow q (veh/h)',
+    }),
     showlegend: false,
   }, plotConfig);
 

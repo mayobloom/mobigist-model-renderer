@@ -1,6 +1,6 @@
-import { bindInputs, integer, number, plotConfig, plotLayoutBase, readNumber } from '../../assets/shared.js';
+import { axisOptions, bindInputs, integer, number, plotConfig, plotLayoutBase, readChecked, readNumber, renderPlot } from '../../assets/shared.js';
 
-const inputIds = ['demand', 'order-cost', 'holding-cost', 'unit-cost', 'lead-time'];
+const inputIds = ['demand', 'order-cost', 'holding-cost', 'unit-cost', 'lead-time', 'lock-axes'];
 
 function eoq(D, S, H) {
   return Math.sqrt((2 * D * S) / H);
@@ -16,6 +16,7 @@ function render() {
   const H = readNumber('holding-cost');
   const C = readNumber('unit-cost');
   const L = readNumber('lead-time');
+  const locked = readChecked('lock-axes');
   const qStar = eoq(D, S, H);
   const minQ = Math.max(1, qStar * 0.2);
   const maxQ = qStar * 2.5;
@@ -24,7 +25,7 @@ function render() {
   const costs = quantities.map((Q) => totalCost(Q, D, S, H, C));
   const rop = (D / 365) * L;
 
-  Plotly.react('chart', [
+  renderPlot('chart', [
     {
       type: 'scatter',
       mode: 'lines',
@@ -45,8 +46,13 @@ function render() {
     },
   ], {
     ...plotLayoutBase,
-    xaxis: { ...plotLayoutBase.xaxis, title: 'Order quantity Q' },
-    yaxis: { ...plotLayoutBase.yaxis, title: 'Total annual cost' },
+    ...axisOptions({
+      locked,
+      xRange: [0, 3500],
+      yRange: [0, 4000000],
+      xTitle: 'Order quantity Q',
+      yTitle: 'Total annual cost',
+    }),
     showlegend: false,
   }, plotConfig);
 

@@ -1,4 +1,4 @@
-import { bindInputs, number, plotConfig, plotLayoutBase, readNumber } from '../../assets/shared.js';
+import { axisOptions, bindInputs, number, plotConfig, plotLayoutBase, readChecked, readNumber, renderPlot } from '../../assets/shared.js';
 
 const alternatives = [
   { key: 'car', name: 'Car', cost: 8.5, asc: 0.4 },
@@ -6,7 +6,7 @@ const alternatives = [
   { key: 'bike', name: 'Bike', cost: 0.4, asc: -0.2 },
 ];
 
-const inputIds = ['beta-time', 'beta-cost', 'car-time', 'transit-time', 'bike-time'];
+const inputIds = ['beta-time', 'beta-cost', 'car-time', 'transit-time', 'bike-time', 'lock-axes'];
 
 function softmax(values) {
   const max = Math.max(...values);
@@ -53,7 +53,8 @@ function renderTable(rows) {
 
 function render() {
   const rows = currentRows();
-  Plotly.react('chart', [{
+  const locked = readChecked('lock-axes');
+  renderPlot('chart', [{
     type: 'bar',
     x: rows.map((row) => row.name),
     y: rows.map((row) => row.probability),
@@ -61,13 +62,14 @@ function render() {
     hovertemplate: '%{x}<br>Probability: %{y:.1%}<extra></extra>',
   }], {
     ...plotLayoutBase,
-    yaxis: {
-      ...plotLayoutBase.yaxis,
-      title: 'Choice probability',
-      tickformat: '.0%',
-      range: [0, 1],
-    },
-    xaxis: { ...plotLayoutBase.xaxis, title: 'Alternative' },
+    ...axisOptions({
+      locked,
+      xRange: [-0.5, 2.5],
+      yRange: [0, 1],
+      xTitle: 'Alternative',
+      yTitle: 'Choice probability',
+      yaxis: { tickformat: '.0%' },
+    }),
   }, plotConfig);
   renderMetrics(rows);
   renderTable(rows);
