@@ -22,5 +22,11 @@
     "category": "Mobility Data Analysis",
     "title": "Simple Linear Regression",
     "description": "Explore how slope and intercept shape travel time predictions."
+  },
+  {
+    "slug": "economic-feasibility",
+    "category": "Mobility Data Analysis",
+    "title": "Infrastructure Feasibility",
+    "description": "Evaluate B/C, NPV, IRR, and FYRR for transport projects."
   }
 ]

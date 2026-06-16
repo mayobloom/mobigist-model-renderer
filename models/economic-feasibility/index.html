@@ -1,0 +1,66 @@
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Infrastructure Feasibility</title>
+  <link rel="stylesheet" href="../../assets/shared.css">
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+  <main class="model-shell">
+    <header class="model-header">
+      <p class="eyebrow">Mobility Data Analysis</p>
+      <h1>Infrastructure Feasibility</h1>
+      <p class="lede">Simulate B/C, NPV, IRR, and FYRR by adjusting cost, benefit, and discount rate over time.</p>
+    </header>
+
+    <section class="workspace">
+      <aside class="controls" aria-label="Feasibility controls">
+        <p class="formula">NPV = Σ [ B_t - C_t / (1+r)^t ]</p>
+        <div class="control-group">
+          <div class="control-row">
+            <label for="cost">Init. Cost (B KRW)</label>
+            <output data-output="cost"></output>
+          </div>
+          <input id="cost" type="range" min="100" max="5000" step="100" value="1000">
+          
+          <div class="control-row">
+            <label for="benefit">Annual Benefit (B KRW)</label>
+            <output data-output="benefit"></output>
+          </div>
+          <input id="benefit" type="range" min="10" max="500" step="10" value="100">
+        </div>
+        <div class="control-group">
+          <div class="control-row">
+            <label for="discount-rate">Discount Rate (%)</label>
+            <output data-output="discount-rate"></output>
+          </div>
+          <input id="discount-rate" type="range" min="1.0" max="10.0" step="0.1" value="4.5">
+          
+          <div class="control-row">
+            <label for="duration">Duration (Years)</label>
+            <output data-output="duration"></output>
+          </div>
+          <input id="duration" type="range" min="10" max="50" step="5" value="30">
+        </div>
+        <div class="control-group">
+          <label class="checkbox-row" for="lock-axes">
+            <input id="lock-axes" type="checkbox" checked>
+            Lock x/y axes
+          </label>
+        </div>
+      </aside>
+
+      <section class="chart-panel">
+        <div id="chart" class="chart" role="img" aria-label="Cumulative NPV Chart"></div>
+        <div id="metrics" class="metric-grid"></div>
+        <p class="note">A project is generally considered economically viable if B/C &ge; 1, NPV &ge; 0, and IRR &gt; Discount Rate.</p>
+      </section>
+    </section>
+  </main>
+  <script type="module" src="./model.js"></script>
+</body>
+</html>
