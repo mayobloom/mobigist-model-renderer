@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>단순 선형 회귀 | Mobigist</title>
+    <link rel="stylesheet" href="../../assets/shared.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="model-shell">
+        <header class="model-header">
+            <span class="eyebrow">Mobility Data Analysis</span>
+            <h1>단순 선형 회귀 (Linear Regression)</h1>
+            <p class="lede">차량 주행 거리(km)와 소요 시간(분) 간의 선형 관계를 탐색하고, 가중치와 편향을 조절하여 오차를 최소화해 보세요.</p>
+        </header>
+        
+        <div class="workspace">
+            <aside class="controls">
+                <div class="control-group">
+                    <label for="weight">가중치 (W): <span id="weight-val">1.5</span></label>
+                    <input type="range" id="weight" min="0" max="4" step="0.1" value="1.5">
+                </div>
+                <div class="control-group">
+                    <label for="bias">편향 (b): <span id="bias-val">5.0</span></label>
+                    <input type="range" id="bias" min="-5" max="15" step="0.5" value="5.0">
+                </div>
+            </aside>
+            
+            <main class="chart-panel">
+                <div id="plot" class="chart"></div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../../assets/shared.js"></script>
+    <script src="model.js"></script>
+</body>
+</html>
